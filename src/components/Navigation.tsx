@@ -47,17 +47,12 @@ export function Navigation({ onOpenEnquiry }: NavigationProps) {
                 </a>
               </li>
               <li>
-                <a href="#bespoke" className="nav-link">
-                  Bespoke Craft
-                </a>
-              </li>
-              <li>
                 <a href="#occasions" className="nav-link">
                   Occasions
                 </a>
               </li>
               <li>
-                <a href="#contact" className="nav-link">
+                <a href="#statement" className="nav-link">
                   Contact
                 </a>
               </li>
@@ -137,15 +132,6 @@ export function Navigation({ onOpenEnquiry }: NavigationProps) {
           </li>
           <li>
             <a
-              href="#bespoke"
-              className="mobile-nav-link"
-              onClick={closeMenu}
-            >
-              Bespoke Craft
-            </a>
-          </li>
-          <li>
-            <a
               href="#occasions"
               className="mobile-nav-link"
               onClick={closeMenu}
@@ -155,7 +141,7 @@ export function Navigation({ onOpenEnquiry }: NavigationProps) {
           </li>
           <li>
             <a
-              href="#contact"
+              href="#statement"
               className="mobile-nav-link"
               onClick={closeMenu}
             >
@@ -178,4 +164,3 @@ export function Navigation({ onOpenEnquiry }: NavigationProps) {
     </>
   );
 }
-

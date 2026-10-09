@@ -67,7 +67,7 @@ export function Footer({ onOpenEnquiry }: FooterProps) {
                 <a href="#collections" className="footer-link">Return Gifts &amp; Favours</a>
               </li>
               <li>
-                <a href="#bespoke" className="footer-link">Custom Rigid Boxes</a>
+                <a href="#occasions" className="footer-link">Occasions Gallery</a>
               </li>
             </ul>
           </div>
@@ -80,7 +80,7 @@ export function Footer({ onOpenEnquiry }: FooterProps) {
                 <a href="#art-of-gifting" className="footer-link">Our Philosophy</a>
               </li>
               <li>
-                <a href="#bespoke" className="footer-link">Bespoke Configurator</a>
+                <a href="#art-of-gifting" className="footer-link">Craftsmanship Pillars</a>
               </li>
               <li>
                 <a href="#occasions" className="footer-link">Celebration Occasions</a>
@@ -137,4 +137,3 @@ export function Footer({ onOpenEnquiry }: FooterProps) {
     </footer>
   );
 }
-

@@ -76,7 +76,7 @@ export function CollectionsScene({ onOpenEnquiry }: CollectionsSceneProps) {
         {/* Header */}
         <div className="collections-header">
           <div>
-            <div className="eyebrow" style={{ color: "var(--bg-wine)" }}>
+            <div className="eyebrow">
               <span>Curated Creations</span>
             </div>
             <h2 className="collections-title">Discover Our Collections</h2>

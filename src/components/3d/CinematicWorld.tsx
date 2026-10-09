@@ -1,54 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-export interface CustomizerState {
-  boxColor: string;
-  ribbonColor: string;
-  monogramText: string;
-}
-
-interface CinematicWorldProps {
-  customizerState?: CustomizerState;
-}
-
-export function CinematicWorld({ customizerState }: CinematicWorldProps) {
+export function CinematicWorld() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const materialsRef = useRef<{
-    boxMat?: THREE.MeshStandardMaterial;
-    ribbonMat?: THREE.MeshStandardMaterial;
-    monogramCanvas?: HTMLCanvasElement;
-    monogramTexture?: THREE.CanvasTexture;
-  }>({});
-
-  // Update 3D materials dynamically when customizer state changes
-  useEffect(() => {
-    if (!customizerState) return;
-
-    if (materialsRef.current.boxMat) {
-      materialsRef.current.boxMat.color.set(customizerState.boxColor);
-    }
-    if (materialsRef.current.ribbonMat) {
-      materialsRef.current.ribbonMat.color.set(customizerState.ribbonColor);
-    }
-    if (materialsRef.current.monogramCanvas && materialsRef.current.monogramTexture) {
-      const cv = materialsRef.current.monogramCanvas;
-      const ctx = cv.getContext("2d");
-      if (ctx) {
-        ctx.fillStyle = customizerState.boxColor;
-        ctx.fillRect(0, 0, 256, 128);
-        ctx.lineWidth = 6;
-        ctx.strokeStyle = customizerState.ribbonColor;
-        ctx.strokeRect(6, 6, 244, 116);
-
-        ctx.fillStyle = customizerState.ribbonColor;
-        ctx.font = "bold 52px serif";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(customizerState.monogramText || "Ni²", 128, 64);
-        materialsRef.current.monogramTexture.needsUpdate = true;
-      }
-    }
-  }, [customizerState]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -62,11 +16,11 @@ export function CinematicWorld({ customizerState }: CinematicWorldProps) {
 
     // Scene
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x230c1c, 0.042);
+    scene.fog = new THREE.FogExp2(0x230c1c, 0.024);
 
     // Camera
     const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
-    camera.position.set(0, 1.4, 6.4);
+    camera.position.set(0, 1.3, 6.2);
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({
@@ -77,7 +31,7 @@ export function CinematicWorld({ customizerState }: CinematicWorldProps) {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.25;
+    renderer.toneMappingExposure = 1.35;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -91,12 +45,12 @@ export function CinematicWorld({ customizerState }: CinematicWorldProps) {
     // ==========================================
     // LIGHTING SYSTEM
     // ==========================================
-    const ambientLight = new THREE.AmbientLight(0x5a1e3d, 1.5);
+    const ambientLight = new THREE.AmbientLight(0x5a1e3d, 1.8);
     scene.add(ambientLight);
 
     // Main studio key light
-    const keyLight = new THREE.DirectionalLight(0xfff1d6, 2.6);
-    keyLight.position.set(5, 7, 5);
+    const keyLight = new THREE.DirectionalLight(0xfff3db, 3.2);
+    keyLight.position.set(5, 7.5, 5);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.width = 1024;
     keyLight.shadow.mapSize.height = 1024;
@@ -104,21 +58,21 @@ export function CinematicWorld({ customizerState }: CinematicWorldProps) {
     scene.add(keyLight);
 
     // Dynamic pointer spotlight
-    const pointerLight = new THREE.SpotLight(0xd6b77a, 3.2, 16, Math.PI / 4, 0.6);
-    pointerLight.position.set(0, 4, 5);
+    const pointerLight = new THREE.SpotLight(0xebd8ad, 3.6, 18, Math.PI / 4, 0.5);
+    pointerLight.position.set(0, 4.5, 5.5);
     scene.add(pointerLight);
 
     // Atmospheric rim lights
-    const rimLightLeft = new THREE.DirectionalLight(0xd6b77a, 1.6);
-    rimLightLeft.position.set(-6, 3, -3);
+    const rimLightLeft = new THREE.DirectionalLight(0xd6b77a, 2.0);
+    rimLightLeft.position.set(-6, 3.5, -3);
     scene.add(rimLightLeft);
 
-    const rimLightRight = new THREE.DirectionalLight(0x702c49, 2.0);
-    rimLightRight.position.set(6, 2, -4);
+    const rimLightRight = new THREE.DirectionalLight(0x8a3059, 2.4);
+    rimLightRight.position.set(6, 2.5, -4);
     scene.add(rimLightRight);
 
     // Warm glow from inside the signature box
-    const boxInteriorLight = new THREE.PointLight(0xffdf88, 0.3, 5);
+    const boxInteriorLight = new THREE.PointLight(0xffd77a, 0.4, 6);
     boxInteriorLight.position.set(0.8, 0.4, 0);
     scene.add(boxInteriorLight);
 
@@ -126,40 +80,38 @@ export function CinematicWorld({ customizerState }: CinematicWorldProps) {
     // MATERIALS
     // ==========================================
     const burgundyMat = new THREE.MeshStandardMaterial({
-      color: 0x3b172d,
-      roughness: 0.42,
-      metalness: 0.08,
+      color: 0x3d172f,
+      roughness: 0.38,
+      metalness: 0.12,
     });
-    materialsRef.current.boxMat = burgundyMat;
 
     const goldRibbonMat = new THREE.MeshStandardMaterial({
-      color: 0xd6b77a,
-      roughness: 0.22,
-      metalness: 0.88,
+      color: 0xdfbf82,
+      roughness: 0.18,
+      metalness: 0.92,
     });
-    materialsRef.current.ribbonMat = goldRibbonMat;
 
     const ivoryMat = new THREE.MeshStandardMaterial({
-      color: 0xf8f3eb,
-      roughness: 0.55,
-      metalness: 0.05,
+      color: 0xfbf8f3,
+      roughness: 0.48,
+      metalness: 0.06,
     });
 
     const wineMat = new THREE.MeshStandardMaterial({
-      color: 0x702c49,
-      roughness: 0.45,
-      metalness: 0.1,
+      color: 0x722a4a,
+      roughness: 0.40,
+      metalness: 0.12,
     });
 
     const pedestalMat = new THREE.MeshStandardMaterial({
-      color: 0x1f0b18,
-      roughness: 0.35,
-      metalness: 0.25,
+      color: 0x1d0a17,
+      roughness: 0.30,
+      metalness: 0.35,
     });
 
     const goldTrimMat = new THREE.MeshStandardMaterial({
       color: 0xebd8ad,
-      roughness: 0.18,
+      roughness: 0.15,
       metalness: 0.95,
     });
 
@@ -180,13 +132,11 @@ export function CinematicWorld({ customizerState }: CinematicWorldProps) {
     mctx.fillText("Ni²", 128, 64);
 
     const monogramTexture = new THREE.CanvasTexture(monogramCanvas);
-    materialsRef.current.monogramCanvas = monogramCanvas;
-    materialsRef.current.monogramTexture = monogramTexture;
 
     const plaqueMat = new THREE.MeshStandardMaterial({
       map: monogramTexture,
-      roughness: 0.25,
-      metalness: 0.75,
+      roughness: 0.22,
+      metalness: 0.82,
     });
 
     // ==========================================
@@ -195,7 +145,7 @@ export function CinematicWorld({ customizerState }: CinematicWorldProps) {
 
     // 1. SIGNATURE LUXURY GIFT BOX (HERO / ATELIER OBJECT)
     const signatureBoxGroup = new THREE.Group();
-    signatureBoxGroup.position.set(1.1, -0.25, 0.2);
+    signatureBoxGroup.position.set(1.15, -0.22, 0.2);
     scene.add(signatureBoxGroup);
 
     // Base Box
@@ -259,13 +209,13 @@ export function CinematicWorld({ customizerState }: CinematicWorldProps) {
 
     // Pedestal for Signature Box
     const sigPedestal = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.4, 0.6, 40), pedestalMat);
-    sigPedestal.position.set(1.1, -1.35, 0.2);
+    sigPedestal.position.set(1.15, -1.35, 0.2);
     sigPedestal.receiveShadow = true;
     scene.add(sigPedestal);
 
     const sigPedestalRing = new THREE.Mesh(new THREE.TorusGeometry(2.22, 0.05, 16, 48), goldTrimMat);
     sigPedestalRing.rotation.x = Math.PI / 2;
-    sigPedestalRing.position.set(1.1, -1.05, 0.2);
+    sigPedestalRing.position.set(1.15, -1.05, 0.2);
     scene.add(sigPedestalRing);
 
     // 2. ROUND HAT BOX (WEDDING / CELEBRATION COLLECTIONS)
@@ -336,8 +286,8 @@ export function CinematicWorld({ customizerState }: CinematicWorldProps) {
     favorGroup.add(favorRibbonH);
 
     // Ground Shadow Plane
-    const groundGeo = new THREE.PlaneGeometry(30, 30);
-    const groundMat = new THREE.ShadowMaterial({ opacity: 0.4 });
+    const groundGeo = new THREE.PlaneGeometry(32, 32);
+    const groundMat = new THREE.ShadowMaterial({ opacity: 0.38 });
     const ground = new THREE.Mesh(groundGeo, groundMat);
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -1.6;
@@ -347,25 +297,25 @@ export function CinematicWorld({ customizerState }: CinematicWorldProps) {
     // ==========================================
     // FLOATING GOLD FOIL PARTICLES (Atelier Atmosphere)
     // ==========================================
-    const particleCount = 140;
+    const particleCount = 180;
     const particleGeo = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     const particleScales = new Float32Array(particleCount);
 
     for (let i = 0; i < particleCount * 3; i += 3) {
-      particlePositions[i] = (Math.random() - 0.5) * 14;
-      particlePositions[i + 1] = (Math.random() - 0.5) * 8 + 1;
-      particlePositions[i + 2] = (Math.random() - 0.5) * 10;
-      particleScales[i / 3] = Math.random() * 0.04 + 0.02;
+      particlePositions[i] = (Math.random() - 0.5) * 15;
+      particlePositions[i + 1] = (Math.random() - 0.5) * 9 + 1;
+      particlePositions[i + 2] = (Math.random() - 0.5) * 11;
+      particleScales[i / 3] = Math.random() * 0.045 + 0.025;
     }
 
     particleGeo.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
 
     const particleMat = new THREE.PointsMaterial({
       color: 0xebd8ad,
-      size: 0.045,
+      size: 0.05,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.75,
       blending: THREE.AdditiveBlending,
     });
 
@@ -373,22 +323,19 @@ export function CinematicWorld({ customizerState }: CinematicWorldProps) {
     scene.add(particles);
 
     // ==========================================
-    // CINEMATIC WAYPOINTS ACROSS 6 SCENES
+    // CINEMATIC WAYPOINTS ACROSS 5 STREAMLINED SCENES
     // ==========================================
-    // Camera waypoints corresponding to scroll progression:
-    // 0.0 -> Scene 1 (Hero Reveal)
-    // 0.2 -> Scene 2 (The Art of Gifting)
-    // 0.45 -> Scene 3 (Collections)
-    // 0.68 -> Scene 4 (Bespoke Atelier)
-    // 0.85 -> Scene 5 (Occasions)
-    // 1.0 -> Scene 6 (Brand Statement)
+    // 0.0  -> Scene 1: Hero Reveal
+    // 0.28 -> Scene 2: The Art of Gifting Atelier
+    // 0.58 -> Scene 3: Discover Our Collections
+    // 0.82 -> Scene 4: Gifting for Every Occasion
+    // 1.0  -> Scene 5: Brand Statement & Closing
     const waypoints = [
       { progress: 0.0, camPos: new THREE.Vector3(0.0, 1.3, 6.2), lookAt: new THREE.Vector3(0.6, 0.1, 0.0), lidOpen: 0.0 },
-      { progress: 0.2, camPos: new THREE.Vector3(1.4, 1.8, 4.2), lookAt: new THREE.Vector3(0.8, 0.4, 0.0), lidOpen: 0.8 },
-      { progress: 0.45, camPos: new THREE.Vector3(-1.8, 1.6, 5.2), lookAt: new THREE.Vector3(-0.4, 0.1, -0.6), lidOpen: 0.4 },
-      { progress: 0.68, camPos: new THREE.Vector3(1.8, 2.2, 4.4), lookAt: new THREE.Vector3(0.7, 0.3, 0.0), lidOpen: 0.2 },
-      { progress: 0.85, camPos: new THREE.Vector3(0.0, 2.4, 6.6), lookAt: new THREE.Vector3(0.2, -0.2, -0.4), lidOpen: 0.6 },
-      { progress: 1.0, camPos: new THREE.Vector3(0.0, 1.4, 6.8), lookAt: new THREE.Vector3(0.5, 0.2, 0.0), lidOpen: 0.0 },
+      { progress: 0.28, camPos: new THREE.Vector3(1.3, 1.85, 4.4), lookAt: new THREE.Vector3(0.75, 0.35, 0.0), lidOpen: 0.85 },
+      { progress: 0.58, camPos: new THREE.Vector3(-2.2, 1.7, 5.0), lookAt: new THREE.Vector3(-0.6, 0.2, -0.6), lidOpen: 0.35 },
+      { progress: 0.82, camPos: new THREE.Vector3(0.4, 2.4, 6.4), lookAt: new THREE.Vector3(0.2, -0.1, -0.3), lidOpen: 0.6 },
+      { progress: 1.0, camPos: new THREE.Vector3(0.0, 1.35, 6.6), lookAt: new THREE.Vector3(0.5, 0.2, 0.0), lidOpen: 0.0 },
     ];
 
     const getInterpolatedWaypoint = (p: number) => {
@@ -480,8 +427,8 @@ export function CinematicWorld({ customizerState }: CinematicWorldProps) {
       camera.lookAt(currentLookAt);
 
       // SpotLight follows pointer softly
-      pointerLight.position.x = mouseNormX * 3;
-      pointerLight.position.y = 3.5 + mouseNormY * 1.5;
+      pointerLight.position.x = mouseNormX * 3.2;
+      pointerLight.position.y = 3.8 + mouseNormY * 1.6;
 
       // Box rotations & animations
       const idle = prefersReducedMotion ? 0 : Math.sin(time * 0.7) * 0.025;
@@ -497,7 +444,7 @@ export function CinematicWorld({ customizerState }: CinematicWorldProps) {
       sigLidGroup.rotation.y = wp.lid * 0.4;
       sigLidGroup.rotation.z = -wp.lid * 0.15;
 
-      boxInteriorLight.intensity = 0.3 + wp.lid * 2.5;
+      boxInteriorLight.intensity = 0.4 + wp.lid * 2.8;
 
       // Floating dust particles
       if (!prefersReducedMotion) {

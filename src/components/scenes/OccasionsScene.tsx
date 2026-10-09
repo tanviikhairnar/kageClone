@@ -55,13 +55,13 @@ export function OccasionsScene({ onOpenEnquiry }: OccasionsSceneProps) {
     <section className="occasions-section" id="occasions">
       <div className="container">
         <div className="occasions-header">
-          <div className="eyebrow" style={{ justifyContent: "center", color: "var(--bg-wine)" }}>
+          <div className="eyebrow" style={{ justifyContent: "center" }}>
             <span>Every Celebration</span>
           </div>
 
           <h2 className="occasions-title">Gifting for Every Occasion</h2>
 
-          <p style={{ color: "var(--text-muted-dark)", fontSize: "1.0625rem", lineHeight: "1.7" }}>
+          <p style={{ color: "var(--text-body)", fontSize: "1.1rem", lineHeight: "1.7", maxWidth: "660px", margin: "0 auto" }}>
             From grand wedding celebrations to intimate family gatherings, we tailor each package to honor the uniqueness of your moment.
           </p>
         </div>
