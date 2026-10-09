@@ -52,7 +52,7 @@ export function Navigation({ onOpenEnquiry }: NavigationProps) {
                 </a>
               </li>
               <li>
-                <a href="#statement" className="nav-link">
+                <a href="#contact" className="nav-link">
                   Contact
                 </a>
               </li>
@@ -141,7 +141,7 @@ export function Navigation({ onOpenEnquiry }: NavigationProps) {
           </li>
           <li>
             <a
-              href="#statement"
+              href="#contact"
               className="mobile-nav-link"
               onClick={closeMenu}
             >

@@ -49,10 +49,10 @@ export function Scene() {
 
         {/* Scene 5 — The Brand Statement & Founders Direct Connect */}
         <BrandStatementScene onOpenEnquiry={() => handleOpenEnquiry("Bespoke Celebration Hamper")} />
-      </main>
 
-      {/* Luxury Footer */}
-      <Footer onOpenEnquiry={() => handleOpenEnquiry("General Inquiry")} />
+        {/* Solid Luxury Footer (Cleanly stacked above WebGL canvas) */}
+        <Footer onOpenEnquiry={() => handleOpenEnquiry("General Inquiry")} />
+      </main>
 
       {/* Direct Interactive WhatsApp Enquiry Drawer */}
       <EnquiryDrawer
