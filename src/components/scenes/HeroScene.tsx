@@ -1,5 +1,4 @@
 import React from "react";
-import { GiftBoxCanvas } from "../3d/GiftBoxCanvas";
 
 interface HeroSceneProps {
   onOpenEnquiry: () => void;
@@ -8,9 +7,6 @@ interface HeroSceneProps {
 export function HeroScene({ onOpenEnquiry }: HeroSceneProps) {
   return (
     <section className="hero-section" id="hero">
-      {/* 3D WebGL Background Canvas */}
-      <GiftBoxCanvas />
-
       {/* Hero Typography & Overlay UI */}
       <div className="container hero-overlay">
         {/* Main Content Block */}
@@ -69,4 +65,3 @@ export function HeroScene({ onOpenEnquiry }: HeroSceneProps) {
     </section>
   );
 }
-

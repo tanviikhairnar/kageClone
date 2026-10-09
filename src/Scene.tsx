@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./styles/luxe.css";
+import { CinematicWorld, CustomizerState } from "./components/3d/CinematicWorld";
 import { Navigation } from "./components/Navigation";
 import { HeroScene } from "./components/scenes/HeroScene";
 import { ArtOfGiftingScene } from "./components/scenes/ArtOfGiftingScene";
@@ -13,6 +14,11 @@ import { EnquiryDrawer } from "./components/EnquiryDrawer";
 export function Scene() {
   const [enquiryOpen, setEnquiryOpen] = useState(false);
   const [initialOccasion, setInitialOccasion] = useState<string>("Wedding & Trousseau");
+  const [customizerState, setCustomizerState] = useState<CustomizerState>({
+    boxColor: "#3B172D",
+    ribbonColor: "#D6B77A",
+    monogramText: "Ni²",
+  });
 
   const handleOpenEnquiry = (occasionOrDetails?: string) => {
     if (occasionOrDetails) {
@@ -27,11 +33,14 @@ export function Scene() {
 
   return (
     <div className="luxe-app">
+      {/* Persistent Full-Page Cinematic 3D WebGL World */}
+      <CinematicWorld customizerState={customizerState} />
+
       {/* Navigation Bar */}
       <Navigation onOpenEnquiry={handleOpenEnquiry} />
 
-      {/* Main Choreographed Scroll Journey */}
-      <main id="main-content">
+      {/* Main Choreographed Scroll Journey Layered Over 3D World */}
+      <main id="main-content" style={{ position: "relative", zIndex: 10 }}>
         {/* Scene 1 — The Reveal Hero */}
         <HeroScene onOpenEnquiry={() => handleOpenEnquiry("Custom Luxury Gift Box")} />
 
@@ -42,7 +51,10 @@ export function Scene() {
         <CollectionsScene onOpenEnquiry={handleOpenEnquiry} />
 
         {/* Scene 4 — Bespoke Packaging Atelier & Interactive Configurator */}
-        <BespokeScene onOpenEnquiry={handleOpenEnquiry} />
+        <BespokeScene
+          onOpenEnquiry={handleOpenEnquiry}
+          onCustomizerChange={setCustomizerState}
+        />
 
         {/* Scene 5 — Gifting for Every Occasion */}
         <OccasionsScene onOpenEnquiry={handleOpenEnquiry} />

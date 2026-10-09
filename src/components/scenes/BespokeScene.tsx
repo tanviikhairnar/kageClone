@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface BespokeSceneProps {
   onOpenEnquiry: (details?: string) => void;
+  onCustomizerChange?: (state: { boxColor: string; ribbonColor: string; monogramText: string }) => void;
 }
 
-export function BespokeScene({ onOpenEnquiry }: BespokeSceneProps) {
+export function BespokeScene({ onOpenEnquiry, onCustomizerChange }: BespokeSceneProps) {
   // Configurator state
   const [boxColor, setBoxColor] = useState<{ name: string; hex: string; textCol: string }>({
     name: "Deep Burgundy",
@@ -31,6 +32,16 @@ export function BespokeScene({ onOpenEnquiry }: BespokeSceneProps) {
     { name: "Rose Pearl", hex: "#E8C2CA" },
     { name: "Pure Ivory", hex: "#FFFDF9" },
   ];
+
+  useEffect(() => {
+    if (onCustomizerChange) {
+      onCustomizerChange({
+        boxColor: boxColor.hex,
+        ribbonColor: ribbonColor.hex,
+        monogramText: monogram,
+      });
+    }
+  }, [boxColor, ribbonColor, monogram, onCustomizerChange]);
 
   const handleConfigSubmit = () => {
     const bespokeDetails = `Bespoke Box (${boxColor.name} Box + ${ribbonColor.name} Ribbon + Monogram: "${monogram}")`;
@@ -110,11 +121,14 @@ export function BespokeScene({ onOpenEnquiry }: BespokeSceneProps) {
           <div className="bespoke-configurator">
             <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
               <span className="eyebrow" style={{ justifyContent: "center" }}>
-                <span>Interactive Studio Preview</span>
+                <span>Interactive 3D Studio Preview</span>
               </span>
               <h3 className="serif" style={{ fontSize: "1.75rem", marginTop: "0.5rem" }}>
-                Visualize Your Signature Box
+                Customize In Real Time
               </h3>
+              <p style={{ fontSize: "0.8125rem", color: "var(--text-muted)", marginTop: "0.25rem" }}>
+                Watch the 3D studio world update instantly with your selected materials.
+              </p>
             </div>
 
             {/* Live Visual Box Mockup */}
@@ -212,4 +226,3 @@ export function BespokeScene({ onOpenEnquiry }: BespokeSceneProps) {
     </section>
   );
 }
-
